@@ -1,6 +1,6 @@
 //phrogz.net/tmp/canvas_zoom_to_cursor.html
 const canvas = document.getElementsByTagName('canvas')[0];
-canvas.width = 800; canvas.height = 600;
+canvas.width = 800; canvas.height = 800;
 const img = new Image;
 // const img2 = new Image;
 img.src = 'tomatoes.jpg';
@@ -15,12 +15,12 @@ window.onload = function(){
     ctx.clearRect(p1.x,p1.y,p2.x-p1.x,p2.y-p1.y);
 
     // get the correct image ratio
-    var hRatio = canvas.width  / img.width    ;
-    var vRatio =  canvas.height / img.height  ;
-    var ratio  = Math.min ( hRatio, vRatio );
+    var hRatio = canvas.width / img.width;
+    var vRatio = (canvas.height - 50) / img.height;
+    var ratio = Math.min( hRatio, vRatio );
     // center the image
     var centerShift_x = ( canvas.width - img.width*ratio ) / 2;
-    var centerShift_y = ( canvas.height - img.height*ratio ) / 2;  
+    var centerShift_y = ( canvas.height - img.height*ratio ) / 2;
     ctx.clearRect(0,0,canvas.width, canvas.height);
     ctx.drawImage(img, 0,0, img.width, img.height,
       centerShift_x,centerShift_y,img.width*ratio, img.height*ratio);
@@ -31,7 +31,9 @@ window.onload = function(){
   let lastX=canvas.width, lastY=canvas.height;
   let dragStart,dragged;
   canvas.addEventListener('mousedown',function(e){
-    document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
+    document.body.style.mozUserSelect =
+      document.body.style.webkitUserSelect =
+      document.body.style.userSelect = 'none';
     lastX = e.offsetX || (e.pageX - canvas.offsetLeft);
     lastY = e.offsetY || (e.pageY - canvas.offsetTop);
     dragStart = ctx.transformedPoint(lastX,lastY);
@@ -69,7 +71,6 @@ window.onload = function(){
   canvas.addEventListener('DOMMouseScroll',handleScroll,false);
   canvas.addEventListener('mousewheel',handleScroll,false);
 };
-img.src = 'image.jpg';
 
 // Adds ctx.getTransform() - returns an SVGMatrix
 // Adds ctx.transformedPoint(x,y) - returns an SVGPoint
