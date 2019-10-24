@@ -2,6 +2,9 @@
 const canvas = document.getElementsByTagName('canvas')[0];
 canvas.width = 800; canvas.height = 600;
 const img = new Image;
+// const img2 = new Image;
+img.src = 'tomatoes.jpg';
+// img2.src = 'tomatoes.jpg';
 window.onload = function(){		
   const ctx = canvas.getContext('2d');
   trackTransforms(ctx);
