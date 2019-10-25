@@ -1,6 +1,7 @@
 //phrogz.net/tmp/canvas_zoom_to_cursor.html
 const canvas = document.getElementsByTagName('canvas')[0];
-canvas.width = 800; canvas.height = 800;
+canvas.width = 800;
+canvas.height = 800;
 const img = new Image;
 // const img2 = new Image;
 img.src = 'tomatoes.jpg';
