@@ -54,11 +54,30 @@ window.onload = function(){
     dragStart = null;
   }, false);
 
-  const scaleFactor = 1.1;
+  // Sets zoom sensitivity.  1.0 = no zoom, 1.1 = quick zoom
+  const scaleFactor = 1.05;
+  // Used to track the zoom level relative to this initial value
+  let zoomLevel = 1;
   const zoom = function(delta){
+    const range = { min: 1, max: 100 };
+    let factor = Math.pow(scaleFactor, delta);
+    // Prevent zoom exceeding range
+    if ((factor < 1 && zoomLevel < range.min) || factor > 1 && zoomLevel > range.max) {
+      return;
+    }
+
+    // Ensure zoomLevel never exceeds the rnage
+    const tooSmall = factor < 1 && factor * zoomLevel < range.min;
+    const tooBig = factor > 1 && factor * zoomLevel > range.max;
+    if (tooSmall) {
+      factor = (range.min / zoomLevel);
+    } else if (tooBig) {
+      factor = (range.max / zoomLevel)
+    }
+
+    zoomLevel *= factor;
     const pt = ctx.transformedPoint(lastX, lastY);
     ctx.translate(pt.x, pt.y);
-    const factor = Math.pow(scaleFactor, delta);
     ctx.scale(factor, factor);
     ctx.translate(-pt.x, -pt.y);
     redrawCanvas();
